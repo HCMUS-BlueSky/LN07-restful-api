@@ -3,14 +3,9 @@ import 'winston-daily-rotate-file';
 import { Actor } from './actors/entities/actor.entity';
 import { ActorInfo } from './actors/entities/actor-info.entity';
 import { FilmActor } from './actors/entities/film-actor.entity';
-import { Film } from './films/entities/film.entity';
-import { FilmCategory } from './films/entities/film-category.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Inventory } from './films/entities/inventory.entity';
-import { Rental } from './films/entities/rental.entity';
 import { ActorsModule } from './actors/actors.module';
-import { FilmsModule } from './films/films.module';
 import { WinstonModule } from 'nest-winston';
 
 @Module({
@@ -22,18 +17,9 @@ import { WinstonModule } from 'nest-winston';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [
-        Actor,
-        ActorInfo,
-        FilmActor,
-        Film,
-        FilmCategory,
-        Inventory,
-        Rental,
-      ],
+      entities: [Actor, ActorInfo, FilmActor],
     }),
     ActorsModule,
-    FilmsModule,
     WinstonModule.forRoot({
       transports: [
         new winston.transports.DailyRotateFile({

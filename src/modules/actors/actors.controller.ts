@@ -8,12 +8,14 @@ import {
   Delete,
   ParseIntPipe,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ActorsService } from './actors.service';
 import { CreateActorDto } from './dto/create-actor.dto';
 import { UpdateActorDto } from './dto/update-actor.dto';
 import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('actors')
 @Controller('actors')
@@ -33,6 +35,7 @@ export class ActorsController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Retrieve all actors' })
   @ApiResponse({ status: 200, description: 'Actors retrieved successfully.' })
   findAll() {
