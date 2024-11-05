@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { FilmsController } from './films.controller';
 import { FilmsService } from './films.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,6 +7,7 @@ import { FilmActor } from '../actors/entities/film-actor.entity';
 import { FilmCategory } from './entities/film-category.entity';
 import { Inventory } from './entities/inventory.entity';
 import { Rental } from './entities/rental.entity';
+import { SecretKeyMiddleware } from 'src/common/middlewares/secret-key.middleware';
 
 @Module({
   imports: [
@@ -21,4 +22,8 @@ import { Rental } from './entities/rental.entity';
   controllers: [FilmsController],
   providers: [FilmsService],
 })
-export class FilmsModule {}
+export class FilmsModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(SecretKeyMiddleware).forRoutes(FilmsController);
+  }
+}

@@ -8,13 +8,16 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiHeader } from '@nestjs/swagger';
 import { FilmsService } from './films.service';
 import { CreateFilmDto } from './dto/create-film.dto';
 import { UpdateFilmDto } from './dto/update-film.dto';
 
 @ApiTags('films')
 @Controller('films')
+@ApiHeader({
+  name: 'APIKey',
+})
 export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
