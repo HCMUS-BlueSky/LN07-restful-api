@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActorsModule } from './actors/actors.module';
 import { WinstonModule } from 'nest-winston';
+import { FilmsModule } from './films/films.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { WinstonModule } from 'nest-winston';
       entities: [Actor, ActorInfo, FilmActor],
     }),
     ActorsModule,
+    FilmsModule,
     WinstonModule.forRoot({
       transports: [
         new winston.transports.DailyRotateFile({
