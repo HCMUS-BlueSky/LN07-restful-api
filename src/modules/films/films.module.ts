@@ -23,11 +23,11 @@ import { SecretKeyMiddleware } from 'src/common/middlewares/secret-key.middlewar
   providers: [FilmsService],
 })
 // Step 1
-// export class FilmsModule {}
+export class FilmsModule {}
 
 // Step 3
-export class FilmsModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SecretKeyMiddleware).forRoutes(FilmsController);
-  }
-}
+// export class FilmsModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(SecretKeyMiddleware).forRoutes(FilmsController);
+//   }
+// }
