@@ -22,9 +22,9 @@ export class FilmsService {
   findAll() {
     return this.httpService
       .get<Film[]>('http://localhost:3001/films', {
-        headers: {
-          APIKey: process.env.SECRET_KEY,
-        },
+        // headers: {
+        //   APIKey: process.env.SECRET_KEY,
+        // },
       })
       .pipe(
         catchError(() => {

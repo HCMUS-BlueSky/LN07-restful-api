@@ -2,27 +2,35 @@ import {
   Body,
   Controller,
   Post,
-  Response,
-  Request,
-  Res,
   Req,
   UnauthorizedException,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() data: any, @Response() res) {
-    const { accessToken, refreshToken } = await this.authService.login(data);
-    res.cookie('refreshToken', refreshToken, {
-      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-      sameSite: 'strict',
-      httpOnly: true,
-    });
-    return { accessToken };
+  async login(@Body() data: any, @Res() res: Response) {
+    try {
+      const { accessToken, refreshToken } = await this.authService.login(data);
+
+      res.cookie('refreshToken', refreshToken, {
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        sameSite: 'strict',
+        httpOnly: true,
+      });
+
+      return res.status(HttpStatus.OK).json({ accessToken });
+    } catch (error) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        message: 'Invalid credentials',
+      });
+    }
   }
 
   @Post('refresh')
@@ -31,12 +39,6 @@ export class AuthController {
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not found');
     }
-    // Optionally, you could refresh the refresh token by setting it again
-    // res.cookie('refreshToken', refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: 'strict',
-    // });
 
     return await this.authService.refresh(refreshToken);
   }

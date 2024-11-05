@@ -24,7 +24,7 @@ export class FilmsController {
   // }
 
   @Get()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Retrieve all films' })
   @ApiResponse({ status: 200, description: 'Films retrieved successfully.' })
   findAll() {

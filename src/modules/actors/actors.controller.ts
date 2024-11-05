@@ -35,7 +35,7 @@ export class ActorsController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Retrieve all actors' })
   @ApiResponse({ status: 200, description: 'Actors retrieved successfully.' })
   findAll() {
